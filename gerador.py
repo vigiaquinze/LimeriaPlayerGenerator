@@ -83,11 +83,11 @@ def gerar_pe():
 
 def gerar_altura(posicao_jogador):
     if posicao_jogador == "DC":
-        return round(random.uniform(1.75, 2.00), 2)  # Defesa Central deve ter pelo menos 1.75m
+        return round(random.uniform(175, 200))  # Defesa Central deve ter entre 175cm e 200cm
     elif posicao_jogador == "G":
-        return round(random.uniform(1.85, 2.05), 2)  # Goleiro deve ter pelo menos 1.85m
+        return round(random.uniform(185, 205))  # Goleiro deve ter entre 185cm e 205cm
     else:
-        return round(random.uniform(1.60, 1.90), 2)  # Outras posições entre 1.60m e 1.90m
+        return round(random.uniform(160, 190))  # Outras posições entre 160cm e 190cm
 
 def gerar_pessoa():
     nome = random.choice(nomes)
@@ -188,7 +188,7 @@ def gerar_tabela_html(pessoas, pasta):
                     <th>Capacidade Potencial</th>
                     <th>Posições Adicionais</th>
                     <th>Pé</th>
-                    <th>Altura (m)</th>
+                    <th>Altura (cm)</th>
                 </tr>
             </thead>
             <tbody>
@@ -204,7 +204,7 @@ def gerar_tabela_html(pessoas, pasta):
                         <td>{{ pessoa.capacidade_potencial }}</td>
                         <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
                         <td>{{ pessoa.pe }}</td>
-                        <td>{{ pessoa.altura }}</td>
+                        <td>{{ pessoa.altura }}cm</td>
                     </tr>
                 {% endfor %}
             </tbody>
