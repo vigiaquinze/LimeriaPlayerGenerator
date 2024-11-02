@@ -5,9 +5,12 @@ import webbrowser
 import yaml
 from datetime import datetime, timedelta
 from jinja2 import Template
+import matplotlib.pyplot as plt
+import io
+import base64
 
 class Pessoa:
-    def __init__(self, nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_potencial, posicoes_adicionais):
+    def __init__(self, nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_potencial, posicoes_adicionais, pe):
         self.nome = nome
         self.sobrenome = sobrenome
         self.cor_pele = cor_pele
@@ -18,6 +21,7 @@ class Pessoa:
         self.capacidade_atual = capacidade_atual
         self.capacidade_potencial = capacidade_potencial
         self.posicoes_adicionais = posicoes_adicionais
+        self.pe = pe  # Atributo do pé
 
     @property
     def nome_completo(self):
@@ -28,7 +32,7 @@ class Pessoa:
                 f"cidade={self.cidade}, posicao_jogador={self.posicao_jogador}, "
                 f"atributo_essencial={self.atributo_essencial}, data_nascimento={self.data_nascimento}, "
                 f"capacidade_atual={self.capacidade_atual}, capacidade_potencial={self.capacidade_potencial}, "
-                f"posicoes_adicionais={self.posicoes_adicionais})")
+                f"posicoes_adicionais={self.posicoes_adicionais}, pe={self.pe})")
 
 def carregar_lista_de_arquivo(nome_arquivo):
     with open(nome_arquivo, newline='', encoding='utf-8') as csvfile:
@@ -71,6 +75,9 @@ def gerar_posicoes_adicionais(posicao_primaria, atributo_essencial):
 
     return posicoes_adicionais
 
+def gerar_pe():
+    return 'Destro' if random.random() < 0.75 else 'Canhoto'  # 75% destro, 25% canhoto
+
 def gerar_pessoa():
     nome = random.choice(nomes)
     sobrenome = random.choice(sobrenomes)
@@ -82,7 +89,8 @@ def gerar_pessoa():
     capacidade_atual = random.randint(120, 155)
     capacidade_possivel = random.choice(capacidade_potencial)
     posicoes_adicionais = gerar_posicoes_adicionais(posicao_jogador, atributo_essencial)
-    return Pessoa(nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_possivel, posicoes_adicionais)
+    pe = gerar_pe()
+    return Pessoa(nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_possivel, posicoes_adicionais, pe)
 
 def gerar_pessoas_com_probabilidades(n):
     contagem_posicoes = {pos: 0 for pos in probabilidades.keys()}
@@ -103,6 +111,99 @@ def gerar_pessoas_com_probabilidades(n):
     return pessoas
 
 def gerar_tabela_html(pessoas, pasta):
+    template_html = """
+    <html>
+    <head>
+        <title>Pessoas Geradas</title>
+        <style>
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid black; padding: 8px; text-align: left; }
+            tr.G { background-color: lightblue; }
+            tr.DD { background-color: lightgreen; }
+            tr.DAD { background-color: lightcoral; }
+            tr.DE { background-color: lightgoldenrodyellow; }
+            tr.DAE { background-color: lightpink; }
+            tr.DC { background-color: lightgray; }
+            tr.MDC { background-color: lightcyan; }
+            tr.MC { background-color: lightseagreen; }
+            tr.MD { background-color: lightsalmon; }
+            tr.ME { background-color: lightslategray; }
+            tr.MOC { background-color: lightsteelblue; }
+            tr.MOE { background-color: lightyellow; }
+            tr.MOD { background-color: lightgreen; }
+            tr.PL { background-color: lightblue; }
+        </style>
+    </head>
+    <body>
+        <h1>Lista de Pessoas Geradas</h1>
+        <table>
+            <tr>
+                <th>Nome Completo</th>
+                <th>Cor de Pele</th>
+                <th>Cidade</th>
+                <th>Posição Jogador</th>
+                <th>Posições Adicionais</th>
+                <th>Atributo Essencial</th>
+                <th>Data de Nascimento</th>
+                <th>Capacidade Atual</th>
+                <th>Capacidade Potencial</th>
+                <th>Pé</th>
+            </tr>
+            {% for pessoa in pessoas %}
+            <tr class="{{ pessoa.posicao_jogador }}">
+                <td>{{ pessoa.nome_completo }}</td>
+                <td>{{ pessoa.cor_pele }}</td>
+                <td>{{ pessoa.cidade }}</td>
+                <td>{{ pessoa.posicao_jogador }}</td>
+                <td>{{ pessoa.posicoes_adicionais }}</td>
+                <td>{{ pessoa.atributo_essencial }}</td>
+                <td>{{ pessoa.data_nascimento }}</td>
+                <td>{{ pessoa.capacidade_atual }}</td>
+                <td>{{ pessoa.capacidade_potencial }}</td>
+                <td>{{ pessoa.pe }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+    </html>
+    """
+    
+    template = Template(template_html)
+    html_content = template.render(pessoas=pessoas)
+
+    if not os.path.exists(pasta):
+        os.makedirs(pasta)
+    
+    caminho_arquivo = os.path.join(pasta, 'pessoas_geradas.html')
+    with open(caminho_arquivo, 'w', encoding='utf-8') as file:
+        file.write(html_content)
+
+    webbrowser.open(f'file://{os.path.realpath(caminho_arquivo)}')
+
+def gerar_grafico_posicoes(contagem_posicoes):
+    plt.figure(figsize=(10, 6))
+    plt.bar(contagem_posicoes.keys(), contagem_posicoes.values(), color='skyblue')
+    plt.title('Contagem de Posições Geradas')
+    plt.xlabel('Posições')
+    plt.ylabel('Contagem')
+
+    # Salva a imagem em um objeto BytesIO
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+
+    # Converte a imagem em Base64
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    return f"data:image/png;base64,{img_str}"
+
+def gerar_tabela_html(pessoas, pasta):
+    contagem_posicoes = {p.posicao_jogador: 0 for p in pessoas}
+    for p in pessoas:
+        contagem_posicoes[p.posicao_jogador] += 1
+
+    grafico_base64 = gerar_grafico_posicoes(contagem_posicoes)
+
     template_html = """
     <html>
     <head><title>Pessoas Geradas</title></head>
@@ -134,16 +235,19 @@ def gerar_tabela_html(pessoas, pasta):
             </tr>
             {% endfor %}
         </table>
+        <h2>Gráfico de Posições Geradas</h2>
+        <img src="{grafico_base64}" alt="Gráfico de Posições">
     </body>
     </html>
     """
-    
+
+    # Renderiza o HTML
     template = Template(template_html)
-    html_content = template.render(pessoas=pessoas)
+    html_content = template.render(pessoas=pessoas, grafico_base64=grafico_base64)
 
     if not os.path.exists(pasta):
         os.makedirs(pasta)
-    
+
     caminho_arquivo = os.path.join(pasta, 'pessoas_geradas.html')
     with open(caminho_arquivo, 'w', encoding='utf-8') as file:
         file.write(html_content)
@@ -151,5 +255,5 @@ def gerar_tabela_html(pessoas, pasta):
     webbrowser.open(f'file://{os.path.realpath(caminho_arquivo)}')
 
 # Gerar 20 pessoas com as probabilidades configuradas
-pessoas = gerar_pessoas_com_probabilidades(20)
+pessoas = gerar_pessoas_com_probabilidades(23)
 gerar_tabela_html(pessoas, 'output')
