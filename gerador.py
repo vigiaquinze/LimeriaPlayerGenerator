@@ -46,7 +46,7 @@ def carregar_probabilidades(nome_arquivo):
 nomes = carregar_lista_de_arquivo('nomes.csv')
 sobrenomes = carregar_lista_de_arquivo('sobrenomes.csv')
 cores_pele = list(range(1, 21))
-cidades = ["Lisboa", "Porto", "Coimbra", "Braga"]
+cidades = ["Abílio Pedro", "Âmago", "Anhanguera", "Caieiras", "Colinas do Engenho", "Crisque", "Odécio Degan", "Equidistante", "Esmeralda", "Geada", "Glória", "Graminha", "Nossa Sra. das Dores", "Nova Liméria", "Planalto", "Roseira", "Santa Adélia", "Vista Alegre"]
 posicoes_jogador = ["G", "DD", "DAD", "DE", "DAE", "DC", "MDC", "MC", "MD", "ME", "MOC", "MOE", "MOD", "PL"]
 capacidade_potencial = [-8, -85, -9, -95]
 
