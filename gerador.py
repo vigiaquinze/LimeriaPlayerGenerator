@@ -10,7 +10,7 @@ import io
 import base64
 
 class Pessoa:
-    def __init__(self, nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_potencial, posicoes_adicionais, pe):
+    def __init__(self, nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_potencial, posicoes_adicionais, pe, altura):
         self.nome = nome
         self.sobrenome = sobrenome
         self.cor_pele = cor_pele
@@ -22,6 +22,7 @@ class Pessoa:
         self.capacidade_potencial = capacidade_potencial
         self.posicoes_adicionais = posicoes_adicionais
         self.pe = pe  # Atributo do pé
+        self.altura = altura  # Altura em metros
 
     @property
     def nome_completo(self):
@@ -32,7 +33,7 @@ class Pessoa:
                 f"cidade={self.cidade}, posicao_jogador={self.posicao_jogador}, "
                 f"atributo_essencial={self.atributo_essencial}, data_nascimento={self.data_nascimento}, "
                 f"capacidade_atual={self.capacidade_atual}, capacidade_potencial={self.capacidade_potencial}, "
-                f"posicoes_adicionais={self.posicoes_adicionais}, pe={self.pe})")
+                f"posicoes_adicionais={self.posicoes_adicionais}, pe={self.pe}, altura={self.altura})")
 
 def carregar_lista_de_arquivo(nome_arquivo):
     with open(nome_arquivo, newline='', encoding='utf-8') as csvfile:
@@ -80,6 +81,14 @@ def gerar_posicoes_adicionais(posicao_primaria, atributo_essencial):
 def gerar_pe():
     return 'Destro' if random.random() < 0.75 else 'Canhoto'  # 75% destro, 25% canhoto
 
+def gerar_altura(posicao_jogador):
+    if posicao_jogador == "DC":
+        return round(random.uniform(1.75, 2.00), 2)  # Defesa Central deve ter pelo menos 1.75m
+    elif posicao_jogador == "G":
+        return round(random.uniform(1.85, 2.05), 2)  # Goleiro deve ter pelo menos 1.85m
+    else:
+        return round(random.uniform(1.60, 1.90), 2)  # Outras posições entre 1.60m e 1.90m
+
 def gerar_pessoa():
     nome = random.choice(nomes)
     sobrenome = random.choice(sobrenomes)
@@ -92,7 +101,8 @@ def gerar_pessoa():
     capacidade_possivel = random.choice(capacidade_potencial)
     posicoes_adicionais = gerar_posicoes_adicionais(posicao_jogador, atributo_essencial)
     pe = gerar_pe()
-    return Pessoa(nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_possivel, posicoes_adicionais, pe)
+    altura = gerar_altura(posicao_jogador)  # Gerar altura com base na posição
+    return Pessoa(nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_possivel, posicoes_adicionais, pe, altura)
 
 def gerar_pessoas_com_probabilidades(n):
     contagem_posicoes = {pos: 0 for pos in probabilidades.keys()}
@@ -159,56 +169,66 @@ def gerar_tabela_html(pessoas, pasta):
             tr.MOC { background-color: lightsteelblue; }
             tr.MOE { background-color: lightyellow; }
             tr.MOD { background-color: lightgreen; }
-            tr.PL { background-color: lightblue; }
+            tr.PL { background-color: lightcoral; }
         </style>
     </head>
     <body>
-        <h1>Lista de Pessoas Geradas</h1>
-        <table>
-            <tr>
-                <th>Nome Completo</th>
-                <th>Cor de Pele</th>
-                <th>Cidade</th>
-                <th>Posição Jogador</th>
-                <th>Posições Adicionais</th>
-                <th>Atributo Essencial</th>
-                <th>Data de Nascimento</th>
-                <th>Capacidade Atual</th>
-                <th>Capacidade Potencial</th>
-                <th>Pé</th>
-            </tr>
-            {% for pessoa in pessoas %}
-            <tr class="{{ pessoa.posicao_jogador }}">
-                <td>{{ pessoa.nome_completo }}</td>
-                <td>{{ pessoa.cor_pele }}</td>
-                <td>{{ pessoa.cidade }}</td>
-                <td>{{ pessoa.posicao_jogador }}</td>
-                <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
-                <td>{{ pessoa.atributo_essencial }}</td>
-                <td>{{ pessoa.data_nascimento }}</td>
-                <td>{{ pessoa.capacidade_atual }}</td>
-                <td>{{ pessoa.capacidade_potencial }}</td>
-                <td>{{ pessoa.pe }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <h2>Gráfico de Posições Geradas</h2>
+        <h1>Pessoas Geradas</h1>
         <img src="{{ grafico_base64 }}" alt="Gráfico de Posições">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome Completo</th>
+                    <th>Cor da Pele</th>
+                    <th>Cidade</th>
+                    <th>Posição</th>
+                    <th>Atributo Essencial</th>
+                    <th>Data de Nascimento</th>
+                    <th>Capacidade Atual</th>
+                    <th>Capacidade Potencial</th>
+                    <th>Posições Adicionais</th>
+                    <th>Pé</th>
+                    <th>Altura (m)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pessoa in pessoas %}
+                    <tr class="{{ pessoa.posicao_jogador }}">
+                        <td>{{ pessoa.nome_completo }}</td>
+                        <td>{{ pessoa.cor_pele }}</td>
+                        <td>{{ pessoa.cidade }}</td>
+                        <td>{{ pessoa.posicao_jogador }}</td>
+                        <td>{{ pessoa.atributo_essencial }}</td>
+                        <td>{{ pessoa.data_nascimento }}</td>
+                        <td>{{ pessoa.capacidade_atual }}</td>
+                        <td>{{ pessoa.capacidade_potencial }}</td>
+                        <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
+                        <td>{{ pessoa.pe }}</td>
+                        <td>{{ pessoa.altura }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </body>
     </html>
     """
 
-    # Renderizando o template
     template = Template(template_html)
-    html_content = template.render(pessoas=pessoas, grafico_base64=grafico_base64)
+    rendered_html = template.render(pessoas=pessoas, grafico_base64=grafico_base64)
 
-    # Salvando o HTML em um arquivo
-    with open(os.path.join(pasta, 'pessoas_geradas.html'), 'w', encoding='utf-8') as f:
-        f.write(html_content)
+    # Gera o caminho do arquivo HTML na pasta especificada
+    nome_arquivo = os.path.join(pasta, 'pessoas_geradas.html')
+    with open(nome_arquivo, 'w', encoding='utf-8') as f:
+        f.write(rendered_html)
 
-    # Abrindo o arquivo HTML no navegador
-    webbrowser.open('file://' + os.path.abspath(os.path.join(pasta, 'pessoas_geradas.html')))
+    # Abre o arquivo HTML no navegador
+    webbrowser.open('file://' + nome_arquivo)
 
-# Gera 50 pessoas e salva na pasta desejada
-pessoas_geradas = gerar_pessoas_com_probabilidades(18)
-gerar_tabela_html(pessoas_geradas, '.')
+def main():
+    n = 18  # Quantidade de pessoas a gerar
+    pessoas = gerar_pessoas_com_probabilidades(n)
+    pasta = os.getcwd()  # Usa o diretório atual
+    gerar_tabela_html(pessoas, pasta)
+
+if __name__ == "__main__":
+    main()
