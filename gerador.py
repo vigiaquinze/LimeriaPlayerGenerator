@@ -19,6 +19,10 @@ class Pessoa:
         self.capacidade_potencial = capacidade_potencial
         self.posicoes_adicionais = posicoes_adicionais
 
+    @property
+    def nome_completo(self):
+        return f"{self.nome}{self.sobrenome}"  # Concatenando nome e sobrenome sem espaço
+
     def __repr__(self):
         return (f"Pessoa(nome={self.nome}, sobrenome={self.sobrenome}, cor_pele={self.cor_pele}, "
                 f"cidade={self.cidade}, posicao_jogador={self.posicao_jogador}, "
@@ -106,8 +110,7 @@ def gerar_tabela_html(pessoas, pasta):
         <h1>Lista de Pessoas Geradas</h1>
         <table border="1">
             <tr>
-                <th>Nome</th>
-                <th>Sobrenome</th>
+                <th>Nome Completo</th>
                 <th>Cor de Pele</th>
                 <th>Cidade</th>
                 <th>Posição Jogador</th>
@@ -119,8 +122,7 @@ def gerar_tabela_html(pessoas, pasta):
             </tr>
             {% for pessoa in pessoas %}
             <tr>
-                <td>{{ pessoa.nome }}</td>
-                <td>{{ pessoa.sobrenome }}</td>
+                <td>{{ pessoa.nome_completo }}</td>
                 <td>{{ pessoa.cor_pele }}</td>
                 <td>{{ pessoa.cidade }}</td>
                 <td>{{ pessoa.posicao_jogador }}</td>
@@ -148,6 +150,6 @@ def gerar_tabela_html(pessoas, pasta):
 
     webbrowser.open(f'file://{os.path.realpath(caminho_arquivo)}')
 
-# Gerar 10 pessoas com as probabilidades configuradas
+# Gerar 20 pessoas com as probabilidades configuradas
 pessoas = gerar_pessoas_com_probabilidades(20)
 gerar_tabela_html(pessoas, 'output')
