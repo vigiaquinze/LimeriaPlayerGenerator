@@ -210,5 +210,5 @@ def gerar_tabela_html(pessoas, pasta):
     webbrowser.open('file://' + os.path.abspath(os.path.join(pasta, 'pessoas_geradas.html')))
 
 # Gera 50 pessoas e salva na pasta desejada
-pessoas_geradas = gerar_pessoas_com_probabilidades(23)
+pessoas_geradas = gerar_pessoas_com_probabilidades(18)
 gerar_tabela_html(pessoas_geradas, '.')
