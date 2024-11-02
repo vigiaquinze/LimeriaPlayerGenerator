@@ -47,13 +47,15 @@ def carregar_probabilidades(nome_arquivo):
     with open(nome_arquivo, 'r', encoding='utf-8') as file:
         return yaml.safe_load(file)['probabilidades']
 
+# Carregando listas de nomes e sobrenomes
 nomes = carregar_lista_de_arquivo('nomes.csv')
 sobrenomes = carregar_lista_de_arquivo('sobrenomes.csv')
-cores_pele = list(range(1, 21))
+cores_pele = ['Clara', 'Escura']  # Apenas duas opções de cor de pele
 cidades = ["Abílio Pedro", "Âmago", "Anhanguera", "Caieiras", "Colinas do Engenho", "Crisque", "Odécio Degan", "Equidistante", "Esmeralda", "Geada", "Glória", "Graminha", "Nossa Sra. das Dores", "Nova Liméria", "Planalto", "Roseira", "Santa Adélia", "Vista Alegre"]
 posicoes_jogador = ["G", "DD", "DAD", "DE", "DAE", "DC", "MDC", "MC", "MD", "ME", "MOC", "MOE", "MOD", "PL"]
 capacidade_potencial = [-8, -85, -9, -95]
 
+# Carregando configurações
 configuracao_posicoes = carregar_configuracao_posicoes('posicoes.yaml')
 probabilidades = carregar_probabilidades('probabilidades.yaml')
 
@@ -110,7 +112,33 @@ def gerar_pessoas_com_probabilidades(n):
 
     return pessoas
 
+def gerar_grafico_posicoes(contagem_posicoes):
+    posicoes = list(contagem_posicoes.keys())
+    quantidades = list(contagem_posicoes.values())
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(posicoes, quantidades, color='blue')
+    plt.xlabel('Posições')
+    plt.ylabel('Quantidade')
+    plt.title('Quantidade de Posições Geradas')
+    plt.xticks(rotation=45)
+    
+    # Salva a imagem em um objeto de bytes
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    # Codifica a imagem em base64
+    img_str = base64.b64encode(buffer.read()).decode('utf-8')
+    plt.close()  # Fecha a figura atual
+    return f"data:image/png;base64,{img_str}"
+
 def gerar_tabela_html(pessoas, pasta):
+    contagem_posicoes = {p.posicao_jogador: 0 for p in pessoas}
+    for p in pessoas:
+        contagem_posicoes[p.posicao_jogador] += 1
+
+    grafico_base64 = gerar_grafico_posicoes(contagem_posicoes)
+
     template_html = """
     <html>
     <head>
@@ -155,7 +183,7 @@ def gerar_tabela_html(pessoas, pasta):
                 <td>{{ pessoa.cor_pele }}</td>
                 <td>{{ pessoa.cidade }}</td>
                 <td>{{ pessoa.posicao_jogador }}</td>
-                <td>{{ pessoa.posicoes_adicionais }}</td>
+                <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
                 <td>{{ pessoa.atributo_essencial }}</td>
                 <td>{{ pessoa.data_nascimento }}</td>
                 <td>{{ pessoa.capacidade_atual }}</td>
@@ -164,96 +192,23 @@ def gerar_tabela_html(pessoas, pasta):
             </tr>
             {% endfor %}
         </table>
-    </body>
-    </html>
-    """
-    
-    template = Template(template_html)
-    html_content = template.render(pessoas=pessoas)
-
-    if not os.path.exists(pasta):
-        os.makedirs(pasta)
-    
-    caminho_arquivo = os.path.join(pasta, 'pessoas_geradas.html')
-    with open(caminho_arquivo, 'w', encoding='utf-8') as file:
-        file.write(html_content)
-
-    webbrowser.open(f'file://{os.path.realpath(caminho_arquivo)}')
-
-def gerar_grafico_posicoes(contagem_posicoes):
-    plt.figure(figsize=(10, 6))
-    plt.bar(contagem_posicoes.keys(), contagem_posicoes.values(), color='skyblue')
-    plt.title('Contagem de Posições Geradas')
-    plt.xlabel('Posições')
-    plt.ylabel('Contagem')
-
-    # Salva a imagem em um objeto BytesIO
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    plt.close()
-    buf.seek(0)
-
-    # Converte a imagem em Base64
-    img_str = base64.b64encode(buf.read()).decode('utf-8')
-    return f"data:image/png;base64,{img_str}"
-
-def gerar_tabela_html(pessoas, pasta):
-    contagem_posicoes = {p.posicao_jogador: 0 for p in pessoas}
-    for p in pessoas:
-        contagem_posicoes[p.posicao_jogador] += 1
-
-    grafico_base64 = gerar_grafico_posicoes(contagem_posicoes)
-
-    template_html = """
-    <html>
-    <head><title>Pessoas Geradas</title></head>
-    <body>
-        <h1>Lista de Pessoas Geradas</h1>
-        <table border="1">
-            <tr>
-                <th>Nome Completo</th>
-                <th>Cor de Pele</th>
-                <th>Cidade</th>
-                <th>Posição Jogador</th>
-                <th>Posições Adicionais</th>
-                <th>Atributo Essencial</th>
-                <th>Data de Nascimento</th>
-                <th>Capacidade Atual</th>
-                <th>Capacidade Potencial</th>
-            </tr>
-            {% for pessoa in pessoas %}
-            <tr>
-                <td>{{ pessoa.nome_completo }}</td>
-                <td>{{ pessoa.cor_pele }}</td>
-                <td>{{ pessoa.cidade }}</td>
-                <td>{{ pessoa.posicao_jogador }}</td>
-                <td>{{ pessoa.posicoes_adicionais }}</td>
-                <td>{{ pessoa.atributo_essencial }}</td>
-                <td>{{ pessoa.data_nascimento }}</td>
-                <td>{{ pessoa.capacidade_atual }}</td>
-                <td>{{ pessoa.capacidade_potencial }}</td>
-            </tr>
-            {% endfor %}
-        </table>
         <h2>Gráfico de Posições Geradas</h2>
-        <img src="{grafico_base64}" alt="Gráfico de Posições">
+        <img src="{{ grafico_base64 }}" alt="Gráfico de Posições">
     </body>
     </html>
     """
 
-    # Renderiza o HTML
+    # Renderizando o template
     template = Template(template_html)
     html_content = template.render(pessoas=pessoas, grafico_base64=grafico_base64)
 
-    if not os.path.exists(pasta):
-        os.makedirs(pasta)
+    # Salvando o HTML em um arquivo
+    with open(os.path.join(pasta, 'pessoas_geradas.html'), 'w', encoding='utf-8') as f:
+        f.write(html_content)
 
-    caminho_arquivo = os.path.join(pasta, 'pessoas_geradas.html')
-    with open(caminho_arquivo, 'w', encoding='utf-8') as file:
-        file.write(html_content)
+    # Abrindo o arquivo HTML no navegador
+    webbrowser.open('file://' + os.path.abspath(os.path.join(pasta, 'pessoas_geradas.html')))
 
-    webbrowser.open(f'file://{os.path.realpath(caminho_arquivo)}')
-
-# Gerar 20 pessoas com as probabilidades configuradas
-pessoas = gerar_pessoas_com_probabilidades(23)
-gerar_tabela_html(pessoas, 'output')
+# Gera 50 pessoas e salva na pasta desejada
+pessoas_geradas = gerar_pessoas_com_probabilidades(23)
+gerar_tabela_html(pessoas_geradas, '.')
