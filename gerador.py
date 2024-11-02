@@ -180,15 +180,15 @@ def gerar_tabela_html(pessoas, pasta):
                 <tr>
                     <th>Nome Completo</th>
                     <th>Cor da Pele</th>
+                    <th>Altura</th>
+                    <th>Data de nascimento</th>
                     <th>Cidade</th>
-                    <th>Posição</th>
-                    <th>Atributo Essencial</th>
-                    <th>Data de Nascimento</th>
-                    <th>Capacidade Atual</th>
-                    <th>Capacidade Potencial</th>
-                    <th>Posições Adicionais</th>
-                    <th>Pé</th>
-                    <th>Altura (cm)</th>
+                    <th>CA</th>
+                    <th>CP</th>
+                    <th>Melhor pé</th>
+                    <th>Posição natural</th>
+                    <th>Posições adicionais</th>
+                    <th>Atributo especial</th>
                 </tr>
             </thead>
             <tbody>
@@ -196,15 +196,15 @@ def gerar_tabela_html(pessoas, pasta):
                     <tr class="{{ pessoa.posicao_jogador }}">
                         <td>{{ pessoa.nome_completo }}</td>
                         <td>{{ pessoa.cor_pele }}</td>
-                        <td>{{ pessoa.cidade }}</td>
-                        <td>{{ pessoa.posicao_jogador }}</td>
-                        <td>{{ pessoa.atributo_essencial }}</td>
+                        <td>{{ pessoa.altura }}</td>
                         <td>{{ pessoa.data_nascimento }}</td>
+                        <td>{{ pessoa.cidade }}</td>
                         <td>{{ pessoa.capacidade_atual }}</td>
                         <td>{{ pessoa.capacidade_potencial }}</td>
-                        <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
                         <td>{{ pessoa.pe }}</td>
-                        <td>{{ pessoa.altura }}</td>
+                        <td>{{ pessoa.posicao_jogador }}</td>
+                        <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
+                        <td>{{ pessoa.atributo_essencial }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
