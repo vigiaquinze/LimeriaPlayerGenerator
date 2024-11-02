@@ -204,7 +204,7 @@ def gerar_tabela_html(pessoas, pasta):
                         <td>{{ pessoa.capacidade_potencial }}</td>
                         <td>{{ pessoa.posicoes_adicionais | join(', ') }}</td>
                         <td>{{ pessoa.pe }}</td>
-                        <td>{{ pessoa.altura }}cm</td>
+                        <td>{{ pessoa.altura }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
