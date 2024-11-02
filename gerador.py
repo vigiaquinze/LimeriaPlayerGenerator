@@ -28,6 +28,10 @@ class Pessoa:
     def nome_completo(self):
         return f"{self.nome}{self.sobrenome}"  # Concatenando nome e sobrenome sem espaço
 
+    # No resto do código, a cor de pele é definida como:
+    cores_pele = ['Clara', 'Escura']  # Apenas duas opções de cor de pele
+
+
     def __repr__(self):
         return (f"Pessoa(nome={self.nome}, sobrenome={self.sobrenome}, cor_pele={self.cor_pele}, "
                 f"cidade={self.cidade}, posicao_jogador={self.posicao_jogador}, "
@@ -89,10 +93,13 @@ def gerar_altura(posicao_jogador):
     else:
         return round(random.uniform(160, 190))  # Outras posições entre 160cm e 190cm
 
+def gerar_cor_pele():
+    return 'Clara' if random.random() < 0.75 else 'Escura'  # 75% clara, 25% escura
+
 def gerar_pessoa():
     nome = random.choice(nomes)
     sobrenome = random.choice(sobrenomes)
-    cor_pele = random.choice(cores_pele)
+    cor_pele = gerar_cor_pele()  # Usa a nova função para gerar a cor da pele
     cidade = random.choice(cidades)
     posicao_jogador = random.choice(posicoes_jogador)
     atributo_essencial = random.choice(configuracao_posicoes['posicoes'][posicao_jogador]['atributos_essenciais'])
