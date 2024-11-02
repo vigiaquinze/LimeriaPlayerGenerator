@@ -1,0 +1,100 @@
+posicoes:
+  G:
+    atributos_essenciais:
+      - Jogo Aéreo
+      - Comando de Área
+      - Um para Um
+      - Reflexos
+      - Jogo de Mãos
+
+  DE:
+    atributos_essenciais:
+      - Aceleração
+      - Decisões
+      - Agilidade
+      - Resistência
+  DD:
+    atributos_essenciais:
+      - Aceleração
+      - Decisões
+      - Agilidade
+      - Resistência
+
+  DAE:
+    atributos_essenciais:
+      - Pique
+      - Resistência
+      - Velocidade
+  DAD:
+    atributos_essenciais:
+      - Pique
+      - Resistência
+      - Velocidade
+
+  DC:
+    atributos_essenciais:
+      - Decisões
+      - Marcação
+      - Posicionamento
+      - Agilidade
+      - Impulsão
+      - Força
+      - Aceleração
+
+  MDC:
+    atributos_essenciais:
+      - Decisões
+      - Desarme
+      - Agilidade
+      - Aceleração
+
+  MC:
+    atributos_essenciais:
+      - Decisões
+      - Agilidade
+      - Resistência
+      - Aceleração
+      - Primeiro Toque
+      - Visão
+      - Passe
+
+  MD:
+    atributos_essenciais:
+      - Aceleração
+      - Agilidade
+      - Pique
+  ME:
+    atributos_essenciais:
+      - Aceleração
+      - Agilidade
+      - Pique
+
+  MOC:
+    atributos_essenciais:
+      - Aceleração
+      - Pique
+      - Agilidade
+      - Resistência
+      - Decisões
+      - Visão
+
+  MOD:
+    atributos_essenciais:
+      - Pique
+      - Aceleração
+      - Resistência
+      - Agilidade
+  MOE:
+    atributos_essenciais:
+      - Pique
+      - Aceleração
+      - Resistência
+      - Agilidade
+
+  PL:
+    atributos_essenciais:
+      - Finalização
+      - Antecipação
+      - Compostura
+      - Sem Bola
+
