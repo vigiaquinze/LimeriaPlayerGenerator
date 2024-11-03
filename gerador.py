@@ -162,7 +162,7 @@ def gerar_tabela_html(pessoas, pasta):
         <title>Pessoas Geradas</title>
         <style>
             table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid black; padding: 8px; text-align: left; }
+            th, td { border: 1px solid rgba(255, 255, 255, 0.15); padding: 8px; text-align: center; }
             tr.G { background-color: #38154d; color: #fff; }
             tr.DD { background-color: #1b294b; color: #fff; }
             tr.DAD { background-color: #1c436d; color: #fff; }
