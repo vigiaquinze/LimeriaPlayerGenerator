@@ -1,15 +1,15 @@
 probabilidades:
   G: 2
   DD: 2
-  DAD: 1
-  DE: 2
-  DAE: 1
   DC: 5
+  DE: 2
+  DAD: 1
   MDC: 2
-  MC: 4
+  DAE: 1
   MD: 1
+  MC: 4
   ME: 1
-  MOC: 1
   MOE: 2
+  MOC: 1
   MOD: 2
   PL: 2
