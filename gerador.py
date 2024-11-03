@@ -167,10 +167,16 @@ def gerar_tabela_html(pessoas, pasta):
     template_html = """
     <html>
     <head>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
         <title>Pessoas Geradas</title>
         <style>
             table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid rgba(255, 255, 255, 0.15); padding: 8px; text-align: center; }
+            th, td { border: 1px solid #ffffff1c; padding: 8px; text-align: center; font-family: "Spline Sans Mono", monospace;}
+            th { font-weight: 900 }
+            td { font-weight: 100 }
+            thead { background-color: #191220; color: #fff; }
             tr.G { background-color: #38154d; color: #fff; }
             tr.DD { background-color: #1b294b; color: #fff; }
             tr.DAD { background-color: #1c436d; color: #fff; }
@@ -189,7 +195,6 @@ def gerar_tabela_html(pessoas, pasta):
     </head>
     <body>
         <h1>Pessoas Geradas</h1>
-        <img src="{{ grafico_base64 }}" alt="Gráfico de Posições">
         <table>
             <thead>
                 <tr>
@@ -224,6 +229,7 @@ def gerar_tabela_html(pessoas, pasta):
                 {% endfor %}
             </tbody>
         </table>
+        <img src="{{ grafico_base64 }}" alt="Gráfico de Posições">
     </body>
     </html>
     """
