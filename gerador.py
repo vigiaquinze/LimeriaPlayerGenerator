@@ -163,20 +163,20 @@ def gerar_tabela_html(pessoas, pasta):
         <style>
             table { width: 100%; border-collapse: collapse; }
             th, td { border: 1px solid black; padding: 8px; text-align: left; }
-            tr.G { background-color: lightblue; }
-            tr.DD { background-color: lightgreen; }
-            tr.DAD { background-color: lightcoral; }
-            tr.DE { background-color: lightgoldenrodyellow; }
-            tr.DAE { background-color: lightpink; }
-            tr.DC { background-color: lightgray; }
-            tr.MDC { background-color: lightcyan; }
-            tr.MC { background-color: lightseagreen; }
-            tr.MD { background-color: lightsalmon; }
-            tr.ME { background-color: lightslategray; }
-            tr.MOC { background-color: lightsteelblue; }
-            tr.MOE { background-color: lightyellow; }
-            tr.MOD { background-color: lightgreen; }
-            tr.PL { background-color: lightcoral; }
+            tr.G { background-color: #38154d; color: #fff; }
+            tr.DD { background-color: #1b294b; color: #fff; }
+            tr.DAD { background-color: #1c436d; color: #fff; }
+            tr.DE { background-color: #1b294b; color: #fff; }
+            tr.DAE { background-color: #1c436d; color: #fff; }
+            tr.DC { background-color: #1b294b; color: #fff; }
+            tr.MDC { background-color: #1c436d; color: #fff; }
+            tr.MC { background-color: #2b7a31; color: #fff; }
+            tr.MD { background-color: #2b7a31; color: #fff; }
+            tr.ME { background-color: #2b7a31; color: #fff; }
+            tr.MOC { background-color: #b56503; color: #fff; }
+            tr.MOE { background-color: #b56503; color: #fff; }
+            tr.MOD { background-color: #b56503; color: #fff; }
+            tr.PL { background-color: #771515; color: #fff; }
         </style>
     </head>
     <body>
