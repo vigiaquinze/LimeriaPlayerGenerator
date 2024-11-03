@@ -31,7 +31,6 @@ class Pessoa:
     # No resto do código, a cor de pele é definida como:
     cores_pele = ['Clara', 'Escura']  # Apenas duas opções de cor de pele
 
-
     def __repr__(self):
         return (f"Pessoa(nome={self.nome}, sobrenome={self.sobrenome}, cor_pele={self.cor_pele}, "
                 f"cidade={self.cidade}, posicao_jogador={self.posicao_jogador}, "
@@ -57,7 +56,7 @@ nomes = carregar_lista_de_arquivo('nomes.csv')
 sobrenomes = carregar_lista_de_arquivo('sobrenomes.csv')
 cores_pele = ['Clara', 'Escura']  # Apenas duas opções de cor de pele
 cidades = ["Abílio Pedro", "Âmago", "Anhanguera", "Caieiras", "Colinas do Engenho", "Odécio Degan", "Equidistante", "Esmeralda", "Geada", "Glória", "Graminha", "Nossa Sra. das Dores", "Nova Liméria", "Planalto", "Roseira", "Santa Adélia", "Vista Alegre"]
-posicoes_jogador = ["G", "DD", "DC", "DE", "DAE", "MDC", "DAD", "MD", "MC", "ME", "MOD", "MOC" "MOE", "PL"]
+posicoes_jogador = ["G", "DD", "DC", "DE", "DAE", "MDC", "DAD", "MD", "MC", "ME", "MOD", "MOC", "MOE", "PL"]
 capacidade_potencial = [-8, -85, -9, -95]
 
 # Carregando configurações
@@ -149,7 +148,16 @@ def gerar_grafico_posicoes(contagem_posicoes):
     plt.close()  # Fecha a figura atual
     return f"data:image/png;base64,{img_str}"
 
+def ordenar_pessoas_por_posicao(pessoas):
+    # Dicionário para mapear posições a seus índices
+    indices_posicoes = {pos: index for index, pos in enumerate(posicoes_jogador)}
+    # Ordena as pessoas pela posição
+    return sorted(pessoas, key=lambda p: indices_posicoes[p.posicao_jogador])
+
 def gerar_tabela_html(pessoas, pasta):
+    # Ordenar pessoas pela posição antes de gerar a tabela
+    pessoas = ordenar_pessoas_por_posicao(pessoas)
+
     contagem_posicoes = {p.posicao_jogador: 0 for p in pessoas}
     for p in pessoas:
         contagem_posicoes[p.posicao_jogador] += 1
@@ -223,19 +231,15 @@ def gerar_tabela_html(pessoas, pasta):
     template = Template(template_html)
     rendered_html = template.render(pessoas=pessoas, grafico_base64=grafico_base64)
 
-    # Gera o caminho do arquivo HTML na pasta especificada
-    nome_arquivo = os.path.join(pasta, 'pessoas_geradas.html')
-    with open(nome_arquivo, 'w', encoding='utf-8') as f:
+    with open(os.path.join(pasta, 'pessoas.html'), 'w', encoding='utf-8') as f:
         f.write(rendered_html)
 
-    # Abre o arquivo HTML no navegador
-    webbrowser.open('file://' + nome_arquivo)
-
 def main():
-    n = 18  # Quantidade de pessoas a gerar
+    n = int(input("Quantas pessoas você deseja gerar? "))
     pessoas = gerar_pessoas_com_probabilidades(n)
-    pasta = os.getcwd()  # Usa o diretório atual
+    pasta = os.path.dirname(os.path.abspath(__file__))
     gerar_tabela_html(pessoas, pasta)
+    webbrowser.open(os.path.join(pasta, 'pessoas.html'))
 
 if __name__ == "__main__":
     main()
