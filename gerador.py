@@ -95,19 +95,19 @@ def gerar_cor_pele():
 # Definindo limites de jogadores por posição
 limites_posicoes = {
     "G": 2,
-    "DD": 2,
-    "DC": 4,
-    "DE": 2,
+    "DD": 1,
+    "DC": 3,
+    "DE": 1,
     "DAD": 0,
     "MDC": 2,
     "DAE": 0,
     "MD": 0,
-    "MC": 4,
+    "MC": 3,
     "ME": 0,
-    "MOD": 2,
+    "MOD": 1,
     "MOC": 2,
-    "MOE": 2,
-    "PL": 3
+    "MOE": 1,
+    "PL": 2
 }
 
 # Gera o jogador
