@@ -6,31 +6,12 @@ posicoes:
       - Um para Um
       - Reflexos
       - Jogo de Mãos
-
-  DE:
-    atributos_essenciais:
-      - Aceleração
-      - Decisões
-      - Agilidade
-      - Resistência
   DD:
     atributos_essenciais:
       - Aceleração
       - Decisões
       - Agilidade
       - Resistência
-
-  DAE:
-    atributos_essenciais:
-      - Pique
-      - Resistência
-      - Velocidade
-  DAD:
-    atributos_essenciais:
-      - Pique
-      - Resistência
-      - Velocidade
-
   DC:
     atributos_essenciais:
       - Decisões
@@ -40,14 +21,33 @@ posicoes:
       - Impulsão
       - Força
       - Aceleração
-
+  DE:
+    atributos_essenciais:
+      - Aceleração
+      - Decisões
+      - Agilidade
+      - Resistência
+  DAD:
+    atributos_essenciais:
+      - Pique
+      - Resistência
+      - Velocidade
   MDC:
     atributos_essenciais:
       - Decisões
       - Desarme
       - Agilidade
       - Aceleração
-
+  DAE:
+    atributos_essenciais:
+      - Pique
+      - Resistência
+      - Velocidade
+  MD:
+    atributos_essenciais:
+      - Aceleração
+      - Agilidade
+      - Pique
   MC:
     atributos_essenciais:
       - Decisões
@@ -57,18 +57,17 @@ posicoes:
       - Primeiro Toque
       - Visão
       - Passe
-
-  MD:
-    atributos_essenciais:
-      - Aceleração
-      - Agilidade
-      - Pique
   ME:
     atributos_essenciais:
       - Aceleração
       - Agilidade
       - Pique
-
+  MOD:
+    atributos_essenciais:
+      - Pique
+      - Aceleração
+      - Resistência
+      - Agilidade
   MOC:
     atributos_essenciais:
       - Aceleração
@@ -77,20 +76,12 @@ posicoes:
       - Resistência
       - Decisões
       - Visão
-
-  MOD:
-    atributos_essenciais:
-      - Pique
-      - Aceleração
-      - Resistência
-      - Agilidade
   MOE:
     atributos_essenciais:
       - Pique
       - Aceleração
       - Resistência
       - Agilidade
-
   PL:
     atributos_essenciais:
       - Finalização

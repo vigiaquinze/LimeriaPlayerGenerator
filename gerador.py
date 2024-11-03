@@ -5,9 +5,6 @@ import webbrowser
 import yaml
 from datetime import datetime, timedelta
 from jinja2 import Template
-import matplotlib.pyplot as plt
-import io
-import base64
 
 class Pessoa:
     def __init__(self, nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_potencial, posicoes_adicionais, pe, altura):
@@ -28,7 +25,6 @@ class Pessoa:
     def nome_completo(self):
         return f"{self.nome}{self.sobrenome}"  # Concatenando nome e sobrenome sem espaço
 
-    # No resto do código, a cor de pele é definida como:
     cores_pele = ['Clara', 'Escura']  # Apenas duas opções de cor de pele
 
     def __repr__(self):
@@ -51,12 +47,13 @@ def carregar_probabilidades(nome_arquivo):
     with open(nome_arquivo, 'r', encoding='utf-8') as file:
         return yaml.safe_load(file)['probabilidades']
 
+# Definindo as posições do jogador
+posicoes_jogador = ["G", "DD", "DC", "DE", "DAD", "MDC", "DAE", "MD", "MC", "ME", "MOD", "MOC", "MOE", "PL"]
+
 # Carregando listas de nomes e sobrenomes
 nomes = carregar_lista_de_arquivo('nomes.csv')
 sobrenomes = carregar_lista_de_arquivo('sobrenomes.csv')
-cores_pele = ['Clara', 'Escura']  # Apenas duas opções de cor de pele
 cidades = ["Abílio Pedro", "Âmago", "Anhanguera", "Caieiras", "Colinas do Engenho", "Odécio Degan", "Equidistante", "Esmeralda", "Geada", "Glória", "Graminha", "Nossa Sra. das Dores", "Nova Liméria", "Planalto", "Roseira", "Santa Adélia", "Vista Alegre"]
-posicoes_jogador = ["G", "DD", "DC", "DE", "DAE", "MDC", "DAD", "MD", "MC", "ME", "MOD", "MOC", "MOE", "PL"]
 capacidade_potencial = [-8, -85, -9, -95]
 
 # Carregando configurações
@@ -95,74 +92,73 @@ def gerar_altura(posicao_jogador):
 def gerar_cor_pele():
     return 'Clara' if random.random() < 0.75 else 'Escura'  # 75% clara, 25% escura
 
-def gerar_pessoa():
+# Definindo limites de jogadores por posição
+limites_posicoes = {
+    "G": 2,
+    "DD": 2,
+    "DC": 4,
+    "DE": 2,
+    "DAD": 0,
+    "MDC": 2,
+    "DAE": 0,
+    "MD": 0,
+    "MC": 4,
+    "ME": 0,
+    "MOD": 2,
+    "MOC": 2,
+    "MOE": 2,
+    "PL": 3
+}
+
+# Gera o jogador
+def gerar_pessoa(posicao_jogador):
     nome = random.choice(nomes)
     sobrenome = random.choice(sobrenomes)
-    cor_pele = gerar_cor_pele()  # Usa a nova função para gerar a cor da pele
+    cor_pele = gerar_cor_pele()
     cidade = random.choice(cidades)
-    posicao_jogador = random.choice(posicoes_jogador)
-    atributo_essencial = random.choice(configuracao_posicoes['posicoes'][posicao_jogador]['atributos_essenciais'])
+
+    # Obter os atributos essenciais da posição escolhida
+    atributos_essenciais = configuracao_posicoes['posicoes'][posicao_jogador]['atributos_essenciais']
+    atributo_essencial = random.choice(atributos_essenciais)  # Escolher um atributo essencial a partir da posição
+
     data_nascimento = gerar_data_nascimento()
     capacidade_atual = random.randint(120, 155)
     capacidade_possivel = random.choice(capacidade_potencial)
     posicoes_adicionais = gerar_posicoes_adicionais(posicao_jogador, atributo_essencial)
     pe = gerar_pe()
-    altura = gerar_altura(posicao_jogador)  # Gerar altura com base na posição
+    altura = gerar_altura(posicao_jogador)
+
     return Pessoa(nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_possivel, posicoes_adicionais, pe, altura)
 
-def gerar_pessoas_com_probabilidades(n):
-    contagem_posicoes = {pos: 0 for pos in probabilidades.keys()}
+# Gera a lista de jogadores
+def gerar_pessoas(n):
     pessoas = []
+    contagem_posicoes = {pos: 0 for pos in limites_posicoes.keys()}  # Inicializa contadores de posição
 
     while len(pessoas) < n:
-        pessoa = gerar_pessoa()
-        posicao = pessoa.posicao_jogador
-        
-        # Verifica se a posição já atingiu o mínimo necessário
-        if contagem_posicoes[posicao] < probabilidades[posicao]:
-            pessoas.append(pessoa)
-            contagem_posicoes[posicao] += 1
-        else:
-            # Se a posição já atingiu o mínimo, tenta outra geração
-            continue
+        # Cria uma lista de posições disponíveis com base nos limites
+        posicoes_disponiveis = [pos for pos in posicoes_jogador if contagem_posicoes[pos] < limites_posicoes[pos]]
+
+        if not posicoes_disponiveis:  # Se não há posições disponíveis, saia do loop
+            break
+
+        posicao_jogador = random.choices(posicoes_disponiveis, weights=[probabilidades[pos] for pos in posicoes_disponiveis])[0]
+
+        nova_pessoa = gerar_pessoa(posicao_jogador)  # Passa a posição gerada para a função
+        pessoas.append(nova_pessoa)
+        contagem_posicoes[posicao_jogador] += 1  # Incrementa contador para a posição
 
     return pessoas
 
-def gerar_grafico_posicoes(contagem_posicoes):
-    posicoes = list(contagem_posicoes.keys())
-    quantidades = list(contagem_posicoes.values())
-
-    plt.figure(figsize=(10, 6))
-    plt.bar(posicoes, quantidades, color='blue')
-    plt.xlabel('Posições')
-    plt.ylabel('Quantidade')
-    plt.title('Quantidade de Posições Geradas')
-    plt.xticks(rotation=45)
-    
-    # Salva a imagem em um objeto de bytes
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    # Codifica a imagem em base64
-    img_str = base64.b64encode(buffer.read()).decode('utf-8')
-    plt.close()  # Fecha a figura atual
-    return f"data:image/png;base64,{img_str}"
+# Cria um dicionário que relaciona cada posição a um índice
+indices_posicoes = {pos: i for i, pos in enumerate(posicoes_jogador)}
 
 def ordenar_pessoas_por_posicao(pessoas):
-    # Dicionário para mapear posições a seus índices
-    indices_posicoes = {pos: index for index, pos in enumerate(posicoes_jogador)}
-    # Ordena as pessoas pela posição
     return sorted(pessoas, key=lambda p: indices_posicoes[p.posicao_jogador])
 
+# Exemplo de uso
 def gerar_tabela_html(pessoas, pasta):
-    # Ordenar pessoas pela posição antes de gerar a tabela
     pessoas = ordenar_pessoas_por_posicao(pessoas)
-
-    contagem_posicoes = {p.posicao_jogador: 0 for p in pessoas}
-    for p in pessoas:
-        contagem_posicoes[p.posicao_jogador] += 1
-
-    grafico_base64 = gerar_grafico_posicoes(contagem_posicoes)
 
     template_html = """
     <html>
@@ -191,6 +187,7 @@ def gerar_tabela_html(pessoas, pasta):
             tr.MOE { background-color: #b56503; color: #fff; }
             tr.MOD { background-color: #b56503; color: #fff; }
             tr.PL { background-color: #771515; color: #fff; }
+            tr:hover { background-color: #4b4b4b; }
         </style>
     </head>
     <body>
@@ -229,23 +226,26 @@ def gerar_tabela_html(pessoas, pasta):
                 {% endfor %}
             </tbody>
         </table>
-        <img src="{{ grafico_base64 }}" alt="Gráfico de Posições">
     </body>
     </html>
     """
-
+    
     template = Template(template_html)
-    rendered_html = template.render(pessoas=pessoas, grafico_base64=grafico_base64)
+    html = template.render(pessoas=pessoas)
 
-    with open(os.path.join(pasta, 'pessoas.html'), 'w', encoding='utf-8') as f:
-        f.write(rendered_html)
+    with open(os.path.join(pasta, 'tabela_jogadores.html'), 'w', encoding='utf-8') as file:
+        file.write(html)
 
-def main():
-    n = int(input("Quantas pessoas você deseja gerar? "))
-    pessoas = gerar_pessoas_com_probabilidades(n)
-    pasta = os.path.dirname(os.path.abspath(__file__))
-    gerar_tabela_html(pessoas, pasta)
-    webbrowser.open(os.path.join(pasta, 'pessoas.html'))
+# Gerar os jogadores e salvar em HTML
+num_jogadores = 18  # Número de jogadores a serem gerados
+jogadores_gerados = gerar_pessoas(num_jogadores)
 
-if __name__ == "__main__":
-    main()
+# Cria a pasta caso não exista
+pasta_saida = 'output'
+os.makedirs(pasta_saida, exist_ok=True)
+
+# Gera o arquivo HTML
+gerar_tabela_html(jogadores_gerados, pasta_saida)
+
+# Abrir o arquivo HTML no navegador
+webbrowser.open(f'file://{os.path.abspath(os.path.join(pasta_saida, "tabela_jogadores.html"))}')
