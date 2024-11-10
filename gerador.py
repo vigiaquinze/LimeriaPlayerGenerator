@@ -184,11 +184,11 @@ def gerar_tabela_html(pessoas, pasta):
     <head>
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
         <title>Pessoas Geradas</title>
         <style>
             table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #ffffff1c; padding: 8px; text-align: center; font-family: "Spline Sans Mono", monospace;}
+            th, td { border: 1px solid #ffffff1c; padding: 8px; text-align: center; font-family: "Funnel Display", monospace;}
             th { font-weight: 900 }
             td { font-weight: 100 }
             thead { background-color: #191220; color: #fff; }
