@@ -110,10 +110,28 @@ limites_posicoes = {
     "PL": 3
 }
 
-# Gera o jogador
-def gerar_pessoa(posicao_jogador):
+# Gera o nome, com a probabilidade de nome composto
+def gerar_nome_completo(probabilidade_nome_composto=0.2):
+    """
+    Gera um nome completo com a possibilidade de ser composto.
+    A probabilidade de ser composto é definida por probabilidade_nome_composto.
+    """
     nome = random.choice(nomes)
+    
+    # Se o nome for composto (de acordo com a probabilidade definida)
+    if random.random() < probabilidade_nome_composto:
+        segundo_nome = random.choice(nomes)
+        nome_completo = f"{nome} {segundo_nome}"
+    else:
+        nome_completo = nome
+
     sobrenome = random.choice(sobrenomes)
+    return nome_completo, sobrenome
+
+
+# Gera o jogador
+def gerar_pessoa(posicao_jogador, probabilidade_nome_composto=0.2):
+    nome, sobrenome = gerar_nome_completo(probabilidade_nome_composto)
     cor_pele = gerar_cor_pele()
     cidade = random.choice(cidades)
 
@@ -129,6 +147,7 @@ def gerar_pessoa(posicao_jogador):
     altura = gerar_altura(posicao_jogador)
 
     return Pessoa(nome, sobrenome, cor_pele, cidade, posicao_jogador, atributo_essencial, data_nascimento, capacidade_atual, capacidade_possivel, posicoes_adicionais, pe, altura)
+
 
 # Gera a lista de jogadores
 def gerar_pessoas(n):
