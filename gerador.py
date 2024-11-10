@@ -130,7 +130,7 @@ def gerar_nome_completo(probabilidade_nome_composto=0.2):
 
 
 # Gera o jogador
-def gerar_pessoa(posicao_jogador, probabilidade_nome_composto=0.2):
+def gerar_pessoa(posicao_jogador, probabilidade_nome_composto=0.4):
     nome, sobrenome = gerar_nome_completo(probabilidade_nome_composto)
     cor_pele = gerar_cor_pele()
     cidade = random.choice(cidades)
@@ -140,7 +140,7 @@ def gerar_pessoa(posicao_jogador, probabilidade_nome_composto=0.2):
     atributo_essencial = random.choice(atributos_essenciais)  # Escolher um atributo essencial a partir da posição
 
     data_nascimento = gerar_data_nascimento()
-    capacidade_atual = random.randint(120, 155)
+    capacidade_atual = random.randint(140, 155)
     capacidade_possivel = random.choice(capacidade_potencial)
     posicoes_adicionais = gerar_posicoes_adicionais(posicao_jogador, atributo_essencial)
     pe = gerar_pe()
