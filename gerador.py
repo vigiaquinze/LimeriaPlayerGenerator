@@ -61,7 +61,7 @@ configuracao_posicoes = carregar_configuracao_posicoes('posicoes.yaml')
 probabilidades = carregar_probabilidades('probabilidades.yaml')
 
 def gerar_data_nascimento():
-    start_date = datetime(1994, 1, 1)
+    start_date = datetime(1990, 1, 1)
     end_date = datetime(2006, 12, 31)
     random_date = start_date + timedelta(days=random.randint(0, (end_date - start_date).days))
     return random_date.strftime("%d/%m/%Y")
@@ -86,6 +86,8 @@ def gerar_altura(posicao_jogador):
         return round(random.uniform(175, 200))  # Defesa Central deve ter entre 175cm e 200cm
     elif posicao_jogador == "G":
         return round(random.uniform(185, 205))  # Goleiro deve ter entre 185cm e 205cm
+    elif posicao_jogador == "PL":
+        return round(random.uniform(175, 205))  # Ponta de lança deve ter entre 175cm e 205cm
     else:
         return round(random.uniform(160, 190))  # Outras posições entre 160cm e 190cm
 
@@ -111,11 +113,11 @@ limites_posicoes = {
 }
 
 # Gera o nome, com a probabilidade de nome composto
-def gerar_nome_completo(probabilidade_nome_composto=0.2):
-    """
-    Gera um nome completo com a possibilidade de ser composto.
-    A probabilidade de ser composto é definida por probabilidade_nome_composto.
-    """
+def gerar_nome_completo(probabilidade_nome_composto=0.4):
+    
+    # Gera um nome completo com a possibilidade de ser composto.
+    # A probabilidade de ser composto é definida por probabilidade_nome_composto.
+
     nome = random.choice(nomes)
     
     # Se o nome for composto (de acordo com a probabilidade definida)
