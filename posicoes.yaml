@@ -1,91 +1,255 @@
 posicoes:
   G:
     atributos_essenciais:
-      - Jogo Aéreo
+      - Alcance Aéreo
       - Comando de Área
-      - Um para Um
-      - Reflexos
+      - Comunicação
       - Jogo de Mãos
+      - Lançamentos
+      - Passe
+      - Primeiro Toque
+      - Reflexos
+      - Um para um
+      - Compostura
+      - Posicionamento
+      - Visão de Jogo
+      - Aceleração
+      - Agilidade
   DD:
     atributos_essenciais:
+      - Cruzamentos
+      - Desarme
+      - Finta
+      - Marcação
+      - Passe
+      - Primeiro Toque
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Índice de trabalho
+      - Posicionamento
+      - Sem bola
+      - Trabalho de equipa
       - Aceleração
-      - Decisões
       - Agilidade
+      - Equilíbrio
       - Resistência
+      - Velocidade
   DC:
     atributos_essenciais:
-      - Decisões
+      - Cabeceamento
+      - Desarme
       - Marcação
+      - Passe
+      - Primeiro Toque
+      - Técnica
+      - Agressividade
+      - Antecipação
+      - Bravura
+      - Compostura
+      - Concentração
       - Posicionamento
-      - Agilidade
-      - Impulsão
+      - Visão de jogo
       - Força
-      - Aceleração
+      - Impulsão
+      - Velocidade
   DE:
     atributos_essenciais:
+      - Cruzamentos
+      - Desarme
+      - Finta
+      - Marcação
+      - Passe
+      - Primeiro Toque
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Índice de trabalho
+      - Posicionamento
+      - Sem bola
+      - Trabalho de equipa
       - Aceleração
-      - Decisões
       - Agilidade
+      - Equilíbrio
       - Resistência
+      - Velocidade
   DAD:
     atributos_essenciais:
-      - Pique
+      - Cruzamentos
+      - Desarme
+      - Finta
+      - Marcação
+      - Passe
+      - Primeiro Toque
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Índice de trabalho
+      - Posicionamento
+      - Sem bola
+      - Trabalho de equipa
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
       - Resistência
       - Velocidade
   MDC:
     atributos_essenciais:
-      - Decisões
       - Desarme
-      - Agilidade
-      - Aceleração
+      - Marcação
+      - Passe
+      - Primeiro toque
+      - Agressividade
+      - Antecipação
+      - Compostura
+      - Concentração
+      - Índice de trabalho
+      - Posicionamento
+      - Trabalho de equipa
+      - Força
+      - Resistência
   DAE:
     atributos_essenciais:
-      - Pique
+      - Cruzamentos
+      - Desarme
+      - Finta
+      - Marcação
+      - Passe
+      - Primeiro Toque
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Índice de trabalho
+      - Posicionamento
+      - Sem bola
+      - Trabalho de equipa
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
       - Resistência
       - Velocidade
   MD:
     atributos_essenciais:
+      - Finalização
+      - Finta
+      - Passe
+      - Primeiro toque
+      - Remates de longe
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Sem bola
+      - Visão de jogo
       - Aceleração
       - Agilidade
-      - Pique
+      - Equilíbrio
+      - Resistência
+      - Velocidade
   MC:
     atributos_essenciais:
-      - Decisões
-      - Agilidade
-      - Resistência
-      - Aceleração
-      - Primeiro Toque
-      - Visão
+      - Finta
       - Passe
-  ME:
-    atributos_essenciais:
-      - Aceleração
-      - Agilidade
-      - Pique
-  MOD:
-    atributos_essenciais:
-      - Pique
-      - Aceleração
-      - Resistência
-      - Agilidade
-  MOC:
-    atributos_essenciais:
-      - Aceleração
-      - Pique
-      - Agilidade
-      - Resistência
-      - Decisões
-      - Visão
-  MOE:
-    atributos_essenciais:
-      - Pique
-      - Aceleração
-      - Resistência
-      - Agilidade
-  PL:
-    atributos_essenciais:
-      - Finalização
+      - Primeiro toque
+      - Remates de longe
+      - Técnica
       - Antecipação
       - Compostura
-      - Sem Bola
+      - Concentração
+      - Decisões
+      - Índice de trabalho
+      - Posicionamento
+      - Sem bola
+      - Trabalho de equipa
+      - Visão de jogo
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
+      - Resistência
+      - Velocidade
+  ME:
+    atributos_essenciais:
+      - Finalização
+      - Finta
+      - Passe
+      - Primeiro toque
+      - Remates de longe
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Sem bola
+      - Visão de jogo
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
+      - Resistência
+      - Velocidade
+  MOD:
+    atributos_essenciais:
+      - Finalização
+      - Finta
+      - Passe
+      - Primeiro toque
+      - Remates de longe
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Sem bola
+      - Visão de jogo
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
+      - Resistência
+      - Velocidade
+  MOC:
+    atributos_essenciais:
+      - Finta
+      - Passe
+      - Primeiro toque
+      - Técnica
+      - Antecipação
+      - Compostura
+      - Imprevisibilidade
+      - Sem bola
+      - Trabalho de equipa
+      - Visão de jogo
+      - Agilidade
+  MOE:
+    atributos_essenciais:
+      - Finalização
+      - Finta
+      - Passe
+      - Primeiro toque
+      - Remates de longe
+      - Técnica
+      - Antecipação
+      - Imprevisibilidade
+      - Sem bola
+      - Visão de jogo
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
+      - Resistência
+      - Velocidade
+  PL:
+    atributos_essenciais:
+      - Cabeceamento
+      - Finalização
+      - Finta
+      - Passe
+      - Primeiro toque
+      - Remates de longe
+      - Técnica
+      - Antecipação
+      - Compostura
+      - Índice de trabalho
+      - Sem bola
+      - Trabalho de equipa
+      - Visão de jogo
+      - Aceleração
+      - Agilidade
+      - Equilíbrio
+      - Força
+      - Impulsão
+      - Resistência
+      - Velocidade
 
