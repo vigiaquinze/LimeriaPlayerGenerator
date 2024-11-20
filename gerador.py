@@ -88,8 +88,14 @@ def gerar_altura(posicao_jogador):
         return round(random.uniform(185, 205))  # Goleiro deve ter entre 185cm e 205cm
     elif posicao_jogador == "PL":
         return round(random.uniform(175, 205))  # Ponta de lança deve ter entre 175cm e 205cm
+    elif posicao_jogador == "MOD":
+        return round(random.uniform(165, 182))  # Médios ofensivos devem ter entre 165cm e 182cm
+    elif posicao_jogador == "MOC":
+        return round(random.uniform(165, 182))  # Médios ofensivos devem ter entre 165cm e 182cm
+    elif posicao_jogador == "MOE":
+        return round(random.uniform(165, 182))  # Médios ofensivos devem ter entre 165cm e 182cm
     else:
-        return round(random.uniform(160, 190))  # Outras posições entre 160cm e 190cm
+        return round(random.uniform(170, 199))  # Outras posições entre 170cm e 190cm
 
 def gerar_cor_pele():
     return 'Clara' if random.random() < 0.75 else 'Escura'  # 75% clara, 25% escura
@@ -109,11 +115,11 @@ limites_posicoes = {
     "MOD": 2,
     "MOC": 2,
     "MOE": 2,
-    "PL": 3
+    "PL": 2
 }
 
 # Gera o nome, com a probabilidade de nome composto
-def gerar_nome_completo(probabilidade_nome_composto=0.4):
+def gerar_nome_completo(probabilidade_nome_composto=0.6):
     
     # Gera um nome completo com a possibilidade de ser composto.
     # A probabilidade de ser composto é definida por probabilidade_nome_composto.
@@ -142,7 +148,7 @@ def gerar_pessoa(posicao_jogador, probabilidade_nome_composto=0.4):
     atributo_essencial = random.choice(atributos_essenciais)  # Escolher um atributo essencial a partir da posição
 
     data_nascimento = gerar_data_nascimento()
-    capacidade_atual = random.randint(140, 155)
+    capacidade_atual = random.randint(130, 145)
     capacidade_possivel = random.choice(capacidade_potencial)
     posicoes_adicionais = gerar_posicoes_adicionais(posicao_jogador, atributo_essencial)
     pe = gerar_pe()
